@@ -1,0 +1,29 @@
+#!/bin/bash
+
+for fn in *
+do
+  if [ -f "$fn" ]
+  then
+    echo "Fajl: $fn"
+    hossz=$(stat -c %s "$fn")
+    if [ $hossz -eq 0 ]
+    then
+      echo "  Nulla hossz"
+    fi
+    esor=$(head -n 1 "$fn")
+    if [ "$esor" != "#!/bin/bash" ]
+    then
+      echo "  Elso sor nem OK"
+    fi
+
+    if [ -x "$fn" ] && ! [[ "$fn" == *.sh ]]
+    then
+      echo "  Futasi jog nelkuli script"
+    fi
+
+    if [[ "$fn" == *.sh ]] && [ ! -x "$fn" ] && [ "$esor" != "#!/bin/bash" ]
+    then
+      echo "  .sh kiterjesztes hianyzik"
+    fi
+  fi
+done
