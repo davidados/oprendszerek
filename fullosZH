@@ -1,0 +1,41 @@
+#!/bin/bash
+
+keresesikonyvtar="$1"
+felhasznalo="$2"
+cd "$keresesikonyvtar" || exit
+
+for fn in *
+do
+  if [ -f "$fn" ]
+  then
+    echo "Fájl: $fn"
+    hossz=$(wc -c < "$fn")
+    if [ $hossz -eq 0 ]
+    then
+      echo "  Nulla hossz"
+    fi
+
+    esor=$(head -n 1 "$fn")
+    if [ "$esor" != "#!/bin/bash" ]
+    then
+      echo "  Első sor nem megfelelő"
+    fi
+
+    if [ -x "$fn" ] && ! [[ "$fn" == *.sh ]]
+    then
+      echo "  Futtatható jog nélküli script"
+    fi
+
+    if [[ "$fn" == *.sh ]] && [ ! -x "$fn" ] && [ "$esor" != "#!/bin/bash" ]
+    then
+      echo "  .sh kiterjesztés hiányzik vagy futtathatóság hiányzik"
+    fi
+
+    tulajdonos=$(ls -l "$fn" | awk '{print $3}')
+    csoport=$(ls -l "$fn" | awk '{print $4}')
+    if [ "$tulajdonos" != "$felhasznalo" ]
+    then
+      echo "  A fájl tulajdonosa nem $felhasznalo"
+    fi
+  fi
+done
