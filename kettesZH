@@ -25,5 +25,12 @@ do
     then
       echo "  .sh kiterjesztes hianyzik"
     fi
+
+    tulajdonos=$(ls -l "$fn" | awk '{print $3}')
+    csoport=$(ls -l "$fn" | awk '{print $4}')
+    if [ "$tulajdonos" != "$csoport" ]
+    then
+      echo "  A tulajdonos és a csoport nem azonos"
+    fi
   fi
 done
