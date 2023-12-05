@@ -1,0 +1,14 @@
+#!/bin/bash
+
+fint . -type f | while read fn
+do
+ if [ -f $fn ]; then
+ echo "A fajl: $fn"
+ echo "A fajl kiterjesztese: ${fn##*.}"
+ fi
+
+ hossz= $(ls -l "$fn" | awk '{print $5}')
+ if [ $hossz -gt 1000 ] && [ -w $fn ]; then
+ echo "Tobb mint 1000 bajt a merete es van irasi joguk"
+ fi
+done
