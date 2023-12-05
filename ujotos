@@ -1,21 +1,19 @@
-#!/bin/bash
-
-echo "adjon meg egy csoport azonositot"
+echo "Adj meg egy csoport azonosítót:"
 read beker
-echo "adja meg a konyvtarat"
+echo "Add meg a könyvtárat:"
 read konyvt
 
-find $konyvt -type f | while read fn
-	do
-	meret=$(ls -l $fn | awk '{print $3}')
-	if [ $tulaj == $@ ]
-		then
-			echo "megegyeznek a tulajok"
-	fi
-	csop = $(ls -l $fn | awk '{print $4}')
-	if [ $csop == $beker ]
-		then
-			echo " egyezo csoport"
-	fi
-	fi
+find "$konyvt" -type f | while read -r fn
+do
+    tulaj=$(ls -l "$fn" | awk '{print $3}')
+    if [ "$tulaj" == "$USER" ]
+    then
+        echo "A fájl tulajdonosa $USER, egyezik a keresettel."
+    fi
+
+    csop=$(ls -l "$fn" | awk '{print $4}')
+    if [ "$csop" == "$beker" ]
+    then
+        echo "A fájl csoportja megegyezik a megadottal: $beker"
+    fi
 done
