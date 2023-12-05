@@ -1,0 +1,21 @@
+#!/bin/bash
+
+echo "adjon meg egy csoport azonositot"
+read beker
+echo "adja meg a konyvtarat"
+read konyvt
+
+find $konyvt -type f | while read fn
+	do
+	meret=$(ls -l $fn | awk '{print $3}')
+	if [ $tulaj == $@ ]
+		then
+			echo "megegyeznek a tulajok"
+	fi
+	csop = $(ls -l $fn | awk '{print $4}')
+	if [ $csop == $beker ]
+		then
+			echo " egyezo csoport"
+	fi
+	fi
+done
